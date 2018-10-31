@@ -39,12 +39,22 @@ namespace Finance.Client
                         Console.WriteLine("Enter the term of the loan in years:");
                     } while (!Int32.TryParse(Console.ReadLine(), out loanTermInYears) || loanTermInYears <= 0);
 
+                    //create new calculator object to call repayment method
+                    //Note: This could also be made into a static class if little domain logic is required
                     FinanceLib calculator = new FinanceLib();
-                    double monthlyRepayment = calculator.GetRepayment(loanAmount, interestRate, loanTermInYears);
 
-                    Console.WriteLine($"Monthly Repayments: ${Math.Round(monthlyRepayment,2)}");                   
-                    Console.WriteLine();
-
+                    try
+                    {
+                        double monthlyRepayment = calculator.GetRepayment(loanAmount, interestRate, loanTermInYears);
+                        Console.WriteLine($"Monthly Repayments: ${Math.Round(monthlyRepayment,2)}");                   
+                        Console.WriteLine();
+                    }
+                    //probably never hit as UI does some valdiation
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine();
+                    }
                 }
                 //Present Value calculation
                 else if (choice == "2")
@@ -69,26 +79,45 @@ namespace Finance.Client
                         Console.WriteLine("Enter the term of the loan in years:");
                     } while (!Int32.TryParse(Console.ReadLine(), out loanTermInYears) || loanTermInYears <= 0);
 
+                    //create new calculator object to call repayment method
+                    //Note: This could also be made into a static class if little domain logic is required 
                     FinanceLib calculator = new FinanceLib();
-                    double presentValue = calculator.GetPresentValue(repayment, interestRate, loanTermInYears);
 
-                    Console.WriteLine($"Present Value of the loan: ${Math.Round(presentValue, 2)}");
-                    Console.WriteLine();
+                    try
+                    {
+                        double presentValue = calculator.GetPresentValue(repayment, interestRate, loanTermInYears);
+                        Console.WriteLine($"Present Value of the loan: ${Math.Round(presentValue, 2)}");
+                        Console.WriteLine();
+                    }
+                    //probably never hit as UI does some valdiation
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine();
+                    }
+                }
+                //display calculations saved to file
+                else if (choice == "3")
+                {
 
                 }
             }
-            while (choice != "3");
+            while (choice != "4");
 
             Console.WriteLine("Exiting program...");
         }
 
+        /// <summary>
+        /// Displays menu options for calculations
+        /// </summary>
         private static void ShowMenu()
         {
             Console.WriteLine("Choose an option from the menu below:");
             Console.WriteLine("=====================================");
             Console.WriteLine("1. Calculate Monthly Loan Repayments");
             Console.WriteLine("2. Calculate Present Value of a Loan");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. View Saved Loan Calculation Results");
+            Console.WriteLine("4. Exit");
         }
     }
     

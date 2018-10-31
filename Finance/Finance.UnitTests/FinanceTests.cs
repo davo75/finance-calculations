@@ -16,29 +16,109 @@ namespace Finance.UnitTests
             double loanAmount = 10000;
             double interestRate = 4.8;
             int loanTerm = 3;
-
-            //Act
+            double expectedResult = 298.81;
             FinanceLib sut = new FinanceLib();
-            var repayment = sut.GetRepayment(loanAmount, interestRate, loanTerm);
+
+            //Act            
+            double actualResult = sut.GetRepayment(loanAmount, interestRate, loanTerm);
             
             //Assert
-            Assert.Equal(298.81, Math.Round(repayment,2));
+            Assert.Equal(expectedResult, Math.Round(actualResult,2));
         }
 
         [Fact]
-        public void Should_Return_Presnt_Value_Of_Loan()
+        public void Should_Return_Present_Value_Of_Loan()
         {
             //Arrange
             double repayment = 250;
             double interestRate = 4.8;
             int loanTerm = 3;
-
-            //Act
+            double expectedResult = 8366.47;
             FinanceLib sut = new FinanceLib();
-            var presentValue = sut.GetPresentValue(repayment, interestRate, loanTerm);
+
+            //Act            
+            double actualResult = sut.GetPresentValue(repayment, interestRate, loanTerm);
 
             //Assert
-            Assert.Equal(8366.47, Math.Round(presentValue,2));
+            Assert.Equal(expectedResult, Math.Round(actualResult,2));
+        }
+
+        [Fact]
+        public void GetRepayment_Should_Throw_ArgumentOutOfRangeException_When_Loan_Amount_Less_Than_Zero()
+        {            
+            //Arrange
+            double loanAmount = -1000;
+            double interestRate = 4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetRepayment(loanAmount, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void GetRepayment_Should_Throw_ArgumentOutOfRangeException_When_Interest_Rate_Less_Than_Zero()
+        {            
+            //Arrange
+            double loanAmount = 10000;
+            double interestRate = -4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetRepayment(loanAmount, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void GetRepayment_Should_Throw_ArgumentOutOfRangeException_When_Loan_Term_Less_Than_Zero()
+        {            
+            //Arrange
+            double loanAmount = 10000;
+            double interestRate = 4.8;
+            int loanTerm = -3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetRepayment(loanAmount, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void GetPresentValue_Should_Throw_ArgumentOutOfRangeException_When_Repayment_Less_Than_Zero()
+        {            
+            //Arrange
+            double repayment = -10000;
+            double interestRate = 4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetPresentValue(repayment, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void GetPresentValue_Should_Throw_ArgumentOutOfRangeException_When_Interest_Rate_Less_Than_Zero()
+        {            
+            //Arrange
+            double repayment = 10000;
+            double interestRate = -4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetPresentValue(repayment, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void GetPresentValue_Should_Throw_ArgumentOutOfRangeException_When_Loan_Term_Less_Than_Zero()
+        {            
+            //Arrange
+            double repayment = 10000;
+            double interestRate = 4.8;
+            int loanTerm = -3;
+            FinanceLib sut = new FinanceLib();
+                     
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetPresentValue(repayment, interestRate, loanTerm); });
         }
     }
 }

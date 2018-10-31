@@ -25,6 +25,11 @@ namespace Finance.Library
         /// <returns></returns>
         public double GetRepayment(double loanAmount, double interestRate, int loanTerm)
         {
+            if (loanAmount < 0 || interestRate < 0 || loanTerm < 0)
+            {
+                throw new ArgumentOutOfRangeException("Entered value(s) must be greater than zero."); 
+            }
+
             _loanAmount = loanAmount;
             //convert interest rate from percentage to decimal
             _interestRateDecimal = interestRate / 100;
@@ -44,6 +49,12 @@ namespace Finance.Library
         /// <returns></returns>
         public double GetPresentValue(double repayment, double interestRate, int loanTerm)
         {
+
+            if (repayment < 0 || interestRate < 0 || loanTerm < 0)
+            {
+                throw new ArgumentOutOfRangeException("Error: Entered value(s) must be greater than zero."); 
+            }
+
             _repayment = repayment;
             //convert interest rate from percentage to decimal
             _interestRateDecimal = interestRate / 100;
