@@ -110,15 +110,59 @@ namespace Finance.UnitTests
 
         [Fact]
         public void GetPresentValue_Should_Throw_ArgumentOutOfRangeException_When_Loan_Term_Less_Than_Zero()
-        {            
+        {
             //Arrange
             double repayment = 10000;
             double interestRate = 4.8;
             int loanTerm = -3;
             FinanceLib sut = new FinanceLib();
-                     
+
             //Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => {sut.GetPresentValue(repayment, interestRate, loanTerm); });
+        }
+
+        [Fact]
+        public void ToString_Should_Return_Details_After_GetRepayment()
+        {
+            //Arrange
+            double loanAmount = 10000;
+            double interestRate = 4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+
+            double repayment = sut.GetRepayment(loanAmount, interestRate, loanTerm);
+
+            StringBuilder expected = new StringBuilder();
+            expected.AppendLine($"Loan Amount: ${loanAmount}");
+            expected.AppendLine($"Interest Rate: {interestRate}%");
+            expected.AppendLine($"Loan Term: {loanTerm} years");
+            expected.AppendLine($"Monthly Repayment: ${Math.Round(repayment, 2)}");
+            expected.AppendLine($"Present Value: $0");
+
+            //Assert
+            Assert.Equal(expected.ToString(), sut.ToString());
+        }
+
+        [Fact]
+        public void ToString_Should_Return_Details_After_GetPresentValue()
+        {
+            //Arrange
+            double repayment = 250;
+            double interestRate = 4.8;
+            int loanTerm = 3;
+            FinanceLib sut = new FinanceLib();
+
+            double presentValue = sut.GetPresentValue(repayment, interestRate, loanTerm);
+
+            StringBuilder expected = new StringBuilder();
+            expected.AppendLine($"Loan Amount: $0");
+            expected.AppendLine($"Interest Rate: {interestRate}%");
+            expected.AppendLine($"Loan Term: {loanTerm} years");
+            expected.AppendLine($"Monthly Repayment: ${Math.Round(repayment, 2)}");
+            expected.AppendLine($"Present Value: ${Math.Round(presentValue, 2)}");
+
+            //Assert
+            Assert.Equal(expected.ToString(), sut.ToString());
         }
     }
 }
