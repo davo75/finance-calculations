@@ -28,6 +28,23 @@ namespace Finance.UnitTests
         }
 
         [Fact]
+        public void Should_Return_Monthly_Repayment_When_Interest_Rate_Is_Zero()
+        {
+            //Arrange
+            double loanAmount = 10000;
+            double interestRate = 0;
+            int loanTerm = 3;
+            double expectedResult = 277.78;
+            FinanceLib sut = new FinanceLib();
+
+            //Act
+            double actualResult = sut.GetRepayment(loanAmount, interestRate, loanTerm);
+
+            //Assert
+            Assert.Equal(expectedResult, Math.Round(actualResult, 2));
+        }
+
+        [Fact]
         public void Should_Return_Present_Value_Of_Loan()
         {
             //Arrange
@@ -42,6 +59,23 @@ namespace Finance.UnitTests
 
             //Assert
             Assert.Equal(expectedResult, Math.Round(actualResult,2));
+        }
+
+        [Fact]
+        public void Should_Return_Present_Value_When_Interest_Rate_Is_Zero()
+        {
+            //Arrange
+            double repayment = 250;
+            double interestRate = 0;
+            int loanTerm = 3;
+            double expectedResult = 9000;
+            FinanceLib sut = new FinanceLib();
+
+            //Act
+            double actualResult = sut.GetPresentValue(repayment, interestRate, loanTerm);
+
+            //Assert
+            Assert.Equal(expectedResult, Math.Round(actualResult, 2));
         }
 
         [Fact]
