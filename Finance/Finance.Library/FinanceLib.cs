@@ -28,9 +28,9 @@ namespace Finance.Library
         /// <returns></returns>
         public double GetRepayment(double loanAmount, double interestRate, int loanTerm)
         {
-            if (loanAmount < 0 || interestRate < 0 || loanTerm < 0)
+            if (loanAmount <= 0 || interestRate < 0 || loanTerm <= 0)
             {
-                throw new ArgumentOutOfRangeException("Entered value(s) must be greater than zero."); 
+                throw new ArgumentOutOfRangeException("Entered value(s) must be greater than zero.");
             }
 
             _loanAmount = loanAmount;
@@ -39,8 +39,15 @@ namespace Finance.Library
             //convert loan term from years to months
             _loanTermMonths = loanTerm * 12;
 
-            //monthly repayments calculation
-            _repayment = _loanAmount / ((1.0 - (1.0 / Math.Pow((1 + (_interestRateDecimal / 12)), (_loanTermMonths)))) / (_interestRateDecimal / 12));
+            if (_interestRateDecimal == 0)
+            {
+                _repayment = _loanAmount / _loanTermMonths;
+            }
+            else
+            {
+                //monthly repayments calculation
+                _repayment = _loanAmount / ((1.0 - (1.0 / Math.Pow((1 + (_interestRateDecimal / 12)), (_loanTermMonths)))) / (_interestRateDecimal / 12));
+            }
 
             return _repayment;
         }
@@ -55,19 +62,26 @@ namespace Finance.Library
         public double GetPresentValue(double repayment, double interestRate, int loanTerm)
         {
 
-            if (repayment < 0 || interestRate < 0 || loanTerm < 0)
+            if (repayment <= 0 || interestRate < 0 || loanTerm <= 0)
             {
-                throw new ArgumentOutOfRangeException("Error: Entered value(s) must be greater than zero."); 
+                throw new ArgumentOutOfRangeException("Error: Entered value(s) must be greater than zero.");
             }
 
             _repayment = repayment;
             //convert interest rate from percentage to decimal
             _interestRateDecimal = interestRate / 100;
             //convert loan term from years to months
-            _loanTermMonths = loanTerm * 12;              
+            _loanTermMonths = loanTerm * 12;
 
-            //Present Value calculation
-            _presentValue =  _repayment * (1 - Math.Pow((1 + (_interestRateDecimal / 12)), (-1 * _loanTermMonths))) / (_interestRateDecimal / 12);
+            if (_interestRateDecimal == 0)
+            {
+                _presentValue = _repayment * _loanTermMonths;
+            }
+            else
+            {
+                //Present Value calculation
+                _presentValue =  _repayment * (1 - Math.Pow((1 + (_interestRateDecimal / 12)), (-1 * _loanTermMonths))) / (_interestRateDecimal / 12);
+            }
 
             return _presentValue;            
         }
