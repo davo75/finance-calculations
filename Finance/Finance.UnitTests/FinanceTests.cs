@@ -1,5 +1,6 @@
 using Finance.Library;
 using System;
+using System.Text;
 using Xunit;
 
 namespace Finance.UnitTests
