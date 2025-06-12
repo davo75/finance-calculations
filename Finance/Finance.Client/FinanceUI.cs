@@ -17,7 +17,7 @@ namespace Finance.Client
             do
             {
                 //Get menu choice
-                ShowMenu();
+                ShowMainMenu();
                 choice = Console.ReadLine();
 
                 //calculate monthly repayment
@@ -142,7 +142,7 @@ namespace Finance.Client
         /// <summary>
         /// Displays menu options for calculations
         /// </summary>
-        private static void ShowMenu()
+        private static void ShowMainMenu()
         {
             Console.WriteLine("");
             Console.WriteLine("=====================================");
